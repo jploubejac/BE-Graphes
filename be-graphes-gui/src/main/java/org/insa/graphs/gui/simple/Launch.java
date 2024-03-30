@@ -14,6 +14,7 @@ import org.insa.graphs.gui.drawing.components.BasicDrawing;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Path;
 import org.insa.graphs.model.io.BinaryGraphReader;
+import org.insa.graphs.model.io.BinaryPathReader;
 import org.insa.graphs.model.io.GraphReader;
 import org.insa.graphs.model.io.PathReader;
 
@@ -48,26 +49,30 @@ public class Launch {
         // Visit these directory to see the list of available files on Commetud.
         final String mapName = "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Maps/insa.mapgr";
         final String pathName = "/mnt/commetud/3eme Annee MIC/Graphes-et-Algorithmes/Paths/path_fr31insa_rangueil_r2.path";
+    	
+    	// En local chez Hilal - decommenter
+    	//final String mapName = "/Users/hilal/Documents/INSA/3A/S2/BE-Graphes-local/Ressources/insa.mapgr";
+    	//final String pathName = "/Users/hilal/Documents/INSA/3A/S2/BE-Graphes-local/Ressources/path_fr31insa_rangueil_r2.path";
 
         // Create a graph reader.
         final GraphReader reader = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
 
-        // TODO: Read the graph.
-        final Graph graph = null;
+        final Graph graph = reader.read();
 
         // Create the drawing:
         final Drawing drawing = createDrawing();
 
-        // TODO: Draw the graph on the drawing.
+        drawing.drawGraph(graph);
 
-        // TODO: Create a PathReader.
-        final PathReader pathReader = null;
+        // Create a PathReader.
+        final PathReader pathReader = new BinaryPathReader(new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))));
+ 
+        final Path path = pathReader.readPath(graph);
 
-        // TODO: Read the path.
-        final Path path = null;
-
-        // TODO: Draw the path.
+        // Draw the path.
+        drawing.drawPath(path);
+        
     }
 
 }
