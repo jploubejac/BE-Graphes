@@ -33,9 +33,6 @@ public class Path {
      *  Need to be implemented your gueul.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes) throws IllegalArgumentException {
-        if(nodes.size()==0){
-            throw new IllegalArgumentException("Il n'y a pas de nodes");
-        }
         List<Arc> arcs = new ArrayList<Arc>();
         for(int i=0;i<nodes.size()-1;i++){
             Node nodeA=nodes.get(i);
@@ -59,7 +56,10 @@ public class Path {
             }
             arcs.add(bestArc);
         }
-        Path path =new Path(graph, arcs); 
+        Path path;
+        if(arcs.isEmpty()&&!nodes.isEmpty())path =new Path(graph, nodes.get(0)); 
+        else if(arcs.isEmpty()) path =new Path(graph, arcs); 
+        else path =new Path(graph, arcs);
         return path;
     }
 
@@ -101,7 +101,11 @@ public class Path {
             }
             arcs.add(bestArc);
         }
-        return new Path(graph, arcs);
+        Path path;
+        if(arcs.isEmpty()&&!nodes.isEmpty())path =new Path(graph, nodes.get(0)); 
+        else if(arcs.isEmpty()) path =new Path(graph, arcs); 
+        else path =new Path(graph, arcs);
+        return path;
     }
 
     /**
@@ -242,11 +246,38 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
+     * Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        List<Arc> list_arcs = this.getArcs();
+
+        // empty
+        boolean empty = this.isEmpty();
+        
+        // single_node
+        boolean single_node = (this.size() == 1);
+        
+        //first_arc_origin_ok
+        boolean first_arc_origin_ok = false;
+        if (!this.isEmpty() && !list_arcs.isEmpty())
+        {
+            first_arc_origin_ok = (this.getOrigin() == list_arcs.get(0).getOrigin());
+        }
+
+        
+        //consecutif_ok
+        boolean consecutif_ok = true;
+        if (this.isEmpty() == false && list_arcs.size()>2){
+            for (int i = 0; i<list_arcs.size()-1; i++){
+                Arc premier_arc = list_arcs.get(i);
+                Arc deuxieme_arc = list_arcs.get(i+1);
+                if (premier_arc.getDestination() != deuxieme_arc.getOrigin()){
+                    consecutif_ok = false;
+                }
+            }
+        }
+        
+        return (empty || single_node || (first_arc_origin_ok && consecutif_ok));
     }
 
     /**
@@ -257,7 +288,7 @@ public class Path {
      * 
      */
     public float getLength() {
-        int length=0;
+        float length=0;
         for(Arc currentArc:this.arcs){
             length+=currentArc.getLength();
         }
