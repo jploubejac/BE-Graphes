@@ -44,7 +44,7 @@ public final class Graph {
         this.graphStatistics = graphStatistics;
     }
 
-    /**
+    /**size()
      * @return The GraphStatistics instance associated with this graph.
      */
     public GraphStatistics getGraphInformation() {
@@ -81,7 +81,7 @@ public final class Graph {
     }
 
     /**
-     * @return ID of the map associated with this graph.
+     * @return ID of the map associated with tsize()his graph.
      */
     public String getMapId() {
         return mapId;

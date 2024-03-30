@@ -145,7 +145,7 @@ public final class Node { //implements Comparable<Node> {
     }
 
     // Do we really need to compare nodes ? Confusion with Label comparisons.
-    /**
+    /* TODO:
      * Compare the ID of this node with the ID of the given node.
      * 
      * @param other Node to compare this node with.

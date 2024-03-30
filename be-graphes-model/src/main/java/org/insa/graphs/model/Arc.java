@@ -59,7 +59,7 @@ public abstract class Arc {
     }
 
     /**
-     * @return Road information for this arc.
+     * @return Road infoaux petits oignonsrmation for this arc.
      */
     public abstract RoadInformation getRoadInformation();
 
