@@ -1,6 +1,5 @@
 package org.insa.graphs.algorithm.shortestpath;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -22,45 +21,47 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
         Graph graph = data.getGraph();
-
-        final int nbNodes = graph.size();
         
-        Label[] labels = new Label[nbNodes];
+        final int nbNodes = graph.size();
+        boolean destIsMarked=false;
+        ArrayList<Label> labels=new ArrayList<Label>();
+        
 
         // HILAL
         BinaryHeap <Label> tas = new BinaryHeap<Label>();
         Node origin= data.getOrigin();
+        Node destination= data.getDestination();
         for(int i=0; i<nbNodes;i++){
-            labels[i].setArc_pere(null);
-            labels[i].setCout_realise(Float.POSITIVE_INFINITY);
-            labels[i].setMarque(false);
-            labels[i].setSommet_courant(graph.get(i));
-            if(labels[i].getSommet_courant()==origin){
-                labels[i].setCout_realise(0);
-                tas.insert(labels[i]);
+            if(graph.get(i)!=origin)labels.add(new Label(graph.get(i),false,Float.POSITIVE_INFINITY,null,null));
+            else {
+                labels.add(new Label(graph.get(i),false,0,null,null));
+                tas.insert(labels.get(i));
             }
         }
         notifyOriginProcessed(data.getOrigin());
         
-
-        for(int i=0; i<nbNodes;i++){
-            Label currentLabel=tas.deleteMin();
+        while(!tas.isEmpty() && !destIsMarked){
+            Label currentLabel= tas.deleteMin();
+            currentLabel=labels.get(labels.indexOf(currentLabel));
             currentLabel.setMarque(true);
+            
+            if(currentLabel.getSommet_courant()==destination)destIsMarked=true;
+            else 
             for(Arc arc: currentLabel.getSommet_courant().getSuccessors()){
-                Node destination= arc.getDestination();
-                int indiceDest;
-                for(indiceDest=0;destination!=labels[indiceDest].getSommet_courant() || indiceDest<nbNodes; indiceDest++ ){}
-                Label destLabel=labels[indiceDest];
-                if(destLabel.getCout_realise()==float.POSITIVE_INFINITY){
-                    
+                Label successorsLabel= labels.get(arc.getDestination().getId());
+                if(successorsLabel.getCout_realise()>(currentLabel.getCout_realise()+arc.getLength()) && successorsLabel.getMarque()==false){
+                    if(successorsLabel.getCout_realise()!=Float.POSITIVE_INFINITY)tas.remove(successorsLabel);
+                    else notifyNodeReached(arc.getDestination());
+                    successorsLabel.setCout_realise(currentLabel.getCout_realise()+arc.getLength());
+                    successorsLabel.setArc_pere(arc);
+                    successorsLabel.setSommet_pere(currentLabel.getSommet_courant());
+                    tas.insert(successorsLabel);
                 }
-                if(destLabel==)
             }
-
         }
 
         // Destination has no predecessor, the solution is infeasible...
-        if (predecessorArcs[data.getDestination().getId()] == null) {
+        if (!destIsMarked) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
         else {
@@ -70,10 +71,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
             // Create the path from the array of predecessors...
             ArrayList<Arc> arcs = new ArrayList<>();
-            Arc arc = predecessorArcs[data.getDestination().getId()];
+            Arc arc = labels.get(data.getDestination().getId()).getArc_pere();
             while (arc != null) {
                 arcs.add(arc);
-                arc = predecessorArcs[arc.getOrigin().getId()];
+                arc = labels.get(arc.getOrigin().getId()).getArc_pere();
             }
 
             // Reverse the path...
