@@ -26,8 +26,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         boolean destIsMarked=false;
         ArrayList<Label> labels=new ArrayList<Label>();
         
-
-        // HILAL
         BinaryHeap <Label> tas = new BinaryHeap<Label>();
         Node origin= data.getOrigin();
         Node destination= data.getDestination();
@@ -36,6 +34,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             else {
                 labels.add(new Label(graph.get(i),false,0,null,null));
                 tas.insert(labels.get(i));
+                notifyNodeReached(graph.get(i));
             }
         }
         notifyOriginProcessed(data.getOrigin());
@@ -44,7 +43,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             Label currentLabel= tas.deleteMin();
             currentLabel=labels.get(labels.indexOf(currentLabel));
             currentLabel.setMarque(true);
-            
+            notifyNodeMarked(currentLabel.getSommet_courant());
             if(currentLabel.getSommet_courant()==destination)destIsMarked=true;
             else 
             for(Arc arc: currentLabel.getSommet_courant().getSuccessors()){
