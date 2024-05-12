@@ -24,19 +24,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         final int nbNodes = graph.size();
         boolean destIsMarked=false;
-        ArrayList<Label> labels=new ArrayList<Label>();
-        
+        ArrayList<Label> labels;
         BinaryHeap <Label> tas = new BinaryHeap<Label>();
+        
         Node origin= data.getOrigin();
         Node destination= data.getDestination();
-        for(int i=0; i<nbNodes;i++){
-            if(graph.get(i)!=origin)labels.add(new Label(graph.get(i),false,Float.POSITIVE_INFINITY,null,null));
-            else {
-                labels.add(new Label(graph.get(i),false,0,null,null));
-                tas.insert(labels.get(i));
-                notifyNodeReached(graph.get(i));
-            }
-        }
+        labels=BuildLabel(nbNodes, graph, origin);
+        tas.insert(labels.get(origin.getId()));
+        notifyNodeReached(origin);
         notifyOriginProcessed(data.getOrigin());
         
         while(!tas.isEmpty() && !destIsMarked){
@@ -84,6 +79,14 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
 
         return solution;
+    }
+    ArrayList<Label> BuildLabel(int nbNodes, Graph graph, Node origin){
+        ArrayList<Label> labels=new ArrayList<Label>();
+        for(int i=0; i<nbNodes;i++){
+            if(graph.get(i)!=origin)labels.add(new Label(graph.get(i),false,Float.POSITIVE_INFINITY,null,null));
+            else labels.add(new Label(graph.get(i),false,0,null,null));
+        }
+        return labels;
     }
 
 }

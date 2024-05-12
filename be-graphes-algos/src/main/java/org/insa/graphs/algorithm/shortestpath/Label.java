@@ -42,10 +42,9 @@ public class Label implements Comparable<Label> {
 	}
 	
 	/* Methodes */
-	
-	public float getCost() {
-		return this.cout_realise;
-	}
+	public double getTotalCost(){
+        return this.getCout_realise();
+    }
 	public void setSommet_courant(Node sommet_courant){this.sommet_courant=sommet_courant;}
 	public void setMarque(boolean marque){this.marque=marque;}
 	public void setCout_realise(float cout_realise){this.cout_realise=cout_realise;}
@@ -53,8 +52,8 @@ public class Label implements Comparable<Label> {
 	public void setArc_pere(Arc arc_pere){this.arc_pere=arc_pere;}
 
 	public int compareTo(Label label2){
-		if(this.cout_realise==label2.cout_realise)return 0;
-		else if(this.cout_realise>label2.cout_realise)return 1;
+		if(this.getTotalCost()==label2.getTotalCost())return 0;
+		else if(this.getTotalCost()>label2.getTotalCost())return 1;
 		else return -1;
 	}
 	
