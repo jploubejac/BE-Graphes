@@ -29,7 +29,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         Node origin= data.getOrigin();
         Node destination= data.getDestination();
-        labels=BuildLabel(nbNodes, graph, origin);
+        labels=BuildLabel(nbNodes, graph, destination, origin);
         tas.insert(labels.get(origin.getId()));
         notifyNodeReached(origin);
         notifyOriginProcessed(data.getOrigin());
@@ -80,7 +80,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         return solution;
     }
-    ArrayList<Label> BuildLabel(int nbNodes, Graph graph, Node origin){
+    ArrayList<Label> BuildLabel(int nbNodes, Graph graph,Node Destination, Node origin){
         ArrayList<Label> labels=new ArrayList<Label>();
         for(int i=0; i<nbNodes;i++){
             if(graph.get(i)!=origin)labels.add(new Label(graph.get(i),false,Float.POSITIVE_INFINITY,null,null));

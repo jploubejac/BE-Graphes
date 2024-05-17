@@ -5,13 +5,13 @@ import org.insa.graphs.model.Node;
 public class Label implements Comparable<Label> {
 	private Node sommet_courant;
 	private boolean marque;
-	private float cout_realise;
+	private double cout_realise;
 	private Node sommet_pere;
 	private Arc arc_pere;
 	
 	/* Constructeur de la classe */
 	
-	public Label(Node sommet_courant, boolean marque, float cout_realise, Node sommet_pere, Arc arc_pere) {
+	public Label(Node sommet_courant, boolean marque, double cout_realise, Node sommet_pere, Arc arc_pere) {
 		this.sommet_courant = sommet_courant;
 		this.marque = marque;
 		this.cout_realise = cout_realise;
@@ -29,7 +29,7 @@ public class Label implements Comparable<Label> {
 		return this.marque;
 	}
 
-	public float getCout_realise() {
+	public double getCout_realise() {
 		return this.cout_realise;
 	}
 	
@@ -40,14 +40,16 @@ public class Label implements Comparable<Label> {
 	public Arc getArc_pere() {
 		return this.arc_pere;
 	}
-	
+	public double getbirdTravel(){
+		return 0;
+	}
 	/* Methodes */
 	public double getTotalCost(){
-        return this.getCout_realise();
+        return this.cout_realise;
     }
 	public void setSommet_courant(Node sommet_courant){this.sommet_courant=sommet_courant;}
 	public void setMarque(boolean marque){this.marque=marque;}
-	public void setCout_realise(float cout_realise){this.cout_realise=cout_realise;}
+	public void setCout_realise(double cout_realise){this.cout_realise=cout_realise;}
 	public void setSommet_pere(Node sommet_pere){this.sommet_pere=sommet_pere;}
 	public void setArc_pere(Arc arc_pere){this.arc_pere=arc_pere;}
 
