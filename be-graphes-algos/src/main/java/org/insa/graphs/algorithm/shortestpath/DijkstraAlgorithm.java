@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.insa.graphs.algorithm.AbstractSolution.Status;
+import org.insa.graphs.algorithm.AbstractInputData.Mode;
 import org.insa.graphs.algorithm.utils.BinaryHeap;
 import org.insa.graphs.model.Graph;
 import org.insa.graphs.model.Node;
@@ -21,7 +22,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         final ShortestPathData data = getInputData();
         ShortestPathSolution solution = null;
         Graph graph = data.getGraph();
-        
         final int nbNodes = graph.size();
         boolean destIsMarked=false;
         ArrayList<Label> labels;
@@ -29,7 +29,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         Node origin= data.getOrigin();
         Node destination= data.getDestination();
-        labels=BuildLabel(nbNodes, graph, destination, origin);
+        labels=BuildLabel(nbNodes, graph, destination, origin, data.getMode(), 36);
         tas.insert(labels.get(origin.getId()));
         notifyNodeReached(origin);
         notifyOriginProcessed(data.getOrigin());
@@ -80,7 +80,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         return solution;
     }
-    ArrayList<Label> BuildLabel(int nbNodes, Graph graph,Node Destination, Node origin){
+    ArrayList<Label> BuildLabel(int nbNodes, Graph graph,Node Destination, Node origin,Mode mode, int maxSpeed){
         ArrayList<Label> labels=new ArrayList<Label>();
         for(int i=0; i<nbNodes;i++){
             if(graph.get(i)!=origin)labels.add(new Label(graph.get(i),false,Float.POSITIVE_INFINITY,null,null));
