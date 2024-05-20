@@ -43,7 +43,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             else 
             for(Arc arc: currentLabel.getSommet_courant().getSuccessors()){
                 Label successorsLabel= labels.get(arc.getDestination().getId());
-                if(successorsLabel.getCout_realise()>(currentLabel.getCout_realise()+arc.getLength()) && successorsLabel.getMarque()==false){
+                if(data.isAllowed(arc)&&successorsLabel.getCout_realise()>(currentLabel.getCout_realise()+arc.getLength()) && successorsLabel.getMarque()==false){
                     if(successorsLabel.getCout_realise()!=Float.POSITIVE_INFINITY)tas.remove(successorsLabel);
                     else notifyNodeReached(arc.getDestination());
                     successorsLabel.setCout_realise(currentLabel.getCout_realise()+arc.getLength());

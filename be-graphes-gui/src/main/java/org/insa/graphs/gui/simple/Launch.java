@@ -18,6 +18,7 @@ import org.insa.graphs.model.io.BinaryPathReader;
 import org.insa.graphs.model.io.GraphReader;
 import org.insa.graphs.model.io.PathReader;
 
+
 public class Launch {
 
     /**
@@ -57,8 +58,11 @@ public class Launch {
 
 
         //En local chez JP - decommenter
-        final String mapName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Ressources/Maps/insa.mapgr";
-        final String pathName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Ressources/Paths/path_fr31insa_rangueil_r2.path";
+        final String mapName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Resources/Maps/insa.mapgr";
+        final String pathName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Resources/Paths/path_fr31_insa_bikini_canal.path";
+        final String pathName2 = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Resources/Paths/path_fr31_insa_bikini_motorcar.path";
+        //final String mapName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Resources/Maps/belgium.mapgr";
+        //final String pathName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Resources/Paths/path_be_173101_302442.path";
         // Create a graph reader.
         final GraphReader reader = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
@@ -72,11 +76,15 @@ public class Launch {
 
         // Create a PathReader.
         final PathReader pathReader = new BinaryPathReader(new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))));
- 
+        final PathReader pathReader2 = new BinaryPathReader(new DataInputStream(new BufferedInputStream(new FileInputStream(pathName2))));
+
         final Path path = pathReader.readPath(graph);
+        final Path path2 = pathReader2.readPath(graph);
+        System.out.println(path.equals(path));
 
         // Draw the path.
         drawing.drawPath(path);
+        drawing.drawPath(path2);
         
     }
 
