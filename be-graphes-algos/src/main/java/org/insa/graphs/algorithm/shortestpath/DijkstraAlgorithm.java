@@ -29,7 +29,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         Node origin= data.getOrigin();
         Node destination= data.getDestination();
-        labels=BuildLabel(nbNodes, graph, destination, origin, data.getMode(), 36);
+        labels=BuildLabel(nbNodes, graph, destination, origin, data.getMode(), graph.getGraphInformation().getMaximumSpeed());
         tas.insert(labels.get(origin.getId()));
         notifyNodeReached(origin);
         notifyOriginProcessed(data.getOrigin());
@@ -43,10 +43,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             else 
             for(Arc arc: currentLabel.getSommet_courant().getSuccessors()){
                 Label successorsLabel= labels.get(arc.getDestination().getId());
-                if(data.isAllowed(arc)&&successorsLabel.getCout_realise()>(currentLabel.getCout_realise()+arc.getLength()) && successorsLabel.getMarque()==false){
+                double coutEstime;
+                if(data.getMode()==Mode.LENGTH)coutEstime=currentLabel.getCout_realise()+arc.getLength();
+                else coutEstime=currentLabel.getCout_realise()+arc.getMinimumTravelTime();
+                if(data.isAllowed(arc)&&successorsLabel.getCout_realise()>coutEstime && successorsLabel.getMarque()==false){
                     if(successorsLabel.getCout_realise()!=Float.POSITIVE_INFINITY)tas.remove(successorsLabel);
                     else notifyNodeReached(arc.getDestination());
-                    successorsLabel.setCout_realise(currentLabel.getCout_realise()+arc.getLength());
+                    successorsLabel.setCout_realise(coutEstime);
                     successorsLabel.setArc_pere(arc);
                     successorsLabel.setSommet_pere(currentLabel.getSommet_courant());
                     tas.insert(successorsLabel);

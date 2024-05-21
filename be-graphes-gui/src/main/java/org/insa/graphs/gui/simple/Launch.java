@@ -5,25 +5,14 @@ import java.awt.Dimension;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.insa.graphs.algorithm.ArcInspector;
-import org.insa.graphs.algorithm.ArcInspectorFactory;
-import org.insa.graphs.algorithm.shortestpath.BellmanFordAlgorithm;
-import org.insa.graphs.algorithm.shortestpath.DijkstraAlgorithm;
-import org.insa.graphs.algorithm.shortestpath.ShortestPathData;
-import org.insa.graphs.algorithm.shortestpath.ShortestPathSolution;
 import org.insa.graphs.gui.drawing.Drawing;
 import org.insa.graphs.gui.drawing.components.BasicDrawing;
-import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Graph;
-import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
-import org.insa.graphs.model.RoadInformation;
-import org.insa.graphs.model.RoadInformation.RoadType;
 import org.insa.graphs.model.io.BinaryGraphReader;
 import org.insa.graphs.model.io.BinaryPathReader;
 import org.insa.graphs.model.io.GraphReader;
@@ -69,8 +58,8 @@ public class Launch {
 
 
         //En local chez JP - decommenter
-        final String mapName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Ressources/Maps/insa.mapgr";
-        final String pathName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Ressources/Paths/path_fr31insa_rangueil_r2.path";
+        //final String mapName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Ressources/Maps/insa.mapgr";
+        //final String pathName = "C:/Users/zaifu/Desktop/INSA 3A/Semestre 2/Graphe/Ressources/Paths/path_fr31insa_rangueil_r2.path";
         // Create a graph reader.
         final GraphReader reader = new BinaryGraphReader(
                 new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
@@ -84,15 +73,17 @@ public class Launch {
 
         // Create a PathReader.
         final PathReader pathReader = new BinaryPathReader(new DataInputStream(new BufferedInputStream(new FileInputStream(pathName))));
-        final PathReader pathReader2 = new BinaryPathReader(new DataInputStream(new BufferedInputStream(new FileInputStream(pathName2))));
+        //final PathReader pathReader2 = new BinaryPathReader(new DataInputStream(new BufferedInputStream(new FileInputStream(pathName2))));
 
         final Path path = pathReader.readPath(graph);
-        final Path path2 = pathReader2.readPath(graph);
+        //l Path path2 = pathReader2.readPath(graph);
         System.out.println(path.equals(path));
 
         // Draw the path.
         drawing.drawPath(path);
-        drawing.drawPath(path2);
+        reader.close();
+        pathReader.close();
+        //drawing.drawPath(path2);
         
         /*
         

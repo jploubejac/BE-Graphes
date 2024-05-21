@@ -329,4 +329,11 @@ public class Path {
         return travelTime;
     }
 
+    public boolean equals(Path path){ //ici, on compare les adresse, mais ce n'est pas génant, car on utilise souvent le même graphique d'origine (donc même adresse)
+        if(!this.graph.equals(path.graph))return false; 
+        if(!this.origin.equals(path.origin))return false;
+        for(int i =0; i<this.arcs.size();i+=1)if(!this.arcs.get(i).equals(path.arcs.get(i)))return false;
+        return true;
+    } 
+
 }

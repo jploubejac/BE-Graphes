@@ -17,7 +17,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         double birdTravel=0;
         for(int i=0; i<nbNodes;i++){
             birdTravel=destination.getPoint().distanceTo(graph.get(i).getPoint());
-            if(mode==Mode.TIME)birdTravel*=maxSpeed;
+            if(mode==Mode.TIME)birdTravel/=maxSpeed;
             if(graph.get(i)!=origin)labels.add(new LabelStar(graph.get(i),false,Double.POSITIVE_INFINITY,null,null,birdTravel));
             else labels.add(new LabelStar(graph.get(i),false,0,null,null,birdTravel));
         }
